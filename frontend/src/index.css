@@ -68,3 +68,14 @@ code {
 .main {
   margin-top: 50px; /* Add a top margin to avoid content overlay */
 }
+
+
+.resources-available-div{
+  display: flex;
+  flex-direction: column;
+}
+
+.available-resource{
+  display: flex;
+  flex-direction: row;
+}
