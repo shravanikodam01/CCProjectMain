@@ -37,7 +37,6 @@ process.on('SIGINT', () => {
 
 
 app.get('/',(req,res)=>{  
-    res.json('her')
     // const q = "INSERT INTO student(`id`,`name`,`username`,`password`) VALUES ('1','shravani','shravani','admin')"
     // db.query(q,(err,data)=>{
     //     if(err){
