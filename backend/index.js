@@ -7,14 +7,15 @@ const app = express()
 
 
 const db = mysql.createConnection({
-    host: 'localhost',
+    client: 'mysql',
+    host: 'ardent-quarter-403122:us-central1:ccprojectlibrary',
     user: 'root',
     password: 'Satish@26',
     database: 'ccprojectlibrary'
 })
 
 app.get('/',(req,res)=>{
-    res.json('hello')
+    res.json('hello')   
 })
 
 app.use(express.json())
