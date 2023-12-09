@@ -8,7 +8,7 @@ const app = express()
 
 const db = mysql.createConnection({
     client: 'mysql',
-    host: '/ardent-quarter-403122:us-central1:ccprojectlibrary',
+    host: 'ardent-quarter-403122:us-central1:ccprojectlibrary',
     user: 'root',
     password: 'Satish@26',
     database: 'ccprojectlibrary'
