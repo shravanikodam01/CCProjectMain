@@ -127,6 +127,7 @@ app.post('/add-resources',(req,res)=>{
     })
 })
 
-app.listen(8800, ()=>{
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, ()=>{
     console.log("Connected to backend")
 })
