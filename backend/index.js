@@ -6,14 +6,36 @@ import cors from 'cors'
 const app = express()
 
 
-const db = mysql.createConnection({
-    client: 'mysql',
+
+const connectionConfig = {
     host: '34.42.13.106',
     user: 'shravani',
     password: 'Satish@26',
-    database: 'ccprojectlibrary'
-})
-db.connect()
+    database: 'ccprojectlibrary',
+    socketPath: '/cloudsql/ardent-quarter-403122:us-central1:ccprojectlibrary',
+    // Alternatively, you can use the following line instead of socketPath for local development
+    // host: 'localhost',
+  };
+
+  const pool = mysql.createPool(connectionConfig);
+
+
+// const db = mysql.createConnection({
+//     host: '34.42.13.106',
+//     user: 'shravani',
+//     password: 'Satish@26',
+//     database: 'ccprojectlibrary',
+//     socketPath: ''
+// })
+
+process.on('SIGINT', () => {
+    pool.end((err) => {
+      if (err) console.error(err);
+      process.exit();
+    });
+  });
+
+
 app.get('/',(req,res)=>{  
     res.json('her')
     // const q = "INSERT INTO student(`id`,`name`,`username`,`password`) VALUES ('1','shravani','shravani','admin')"
@@ -25,6 +47,15 @@ app.get('/',(req,res)=>{
     //         res.send({message: data})
     //     }
     // })
+
+    pool.query('SELECT 1 + 1 AS solution', (error, results) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    
+        res.json({ result: results[0].solution });
+      });
 })
 
 app.use(express.json())
