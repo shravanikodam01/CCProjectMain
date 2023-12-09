@@ -15,15 +15,16 @@ const db = mysql.createConnection({
 })
 db.connect()
 app.get('/',(req,res)=>{  
-    const q = "INSERT INTO student(`id`,`name`,`username`,`password`) VALUES ('1','shravani','shravani','admin')"
-    db.query(q,(err,data)=>{
-        if(err){
-            res.send({error:err})
-        }
-        if(data){
-            res.send({message: data})
-        }
-    })
+    res.json('her')
+    // const q = "INSERT INTO student(`id`,`name`,`username`,`password`) VALUES ('1','shravani','shravani','admin')"
+    // db.query(q,(err,data)=>{
+    //     if(err){
+    //         res.send({error:err})
+    //     }
+    //     if(data){
+    //         res.send({message: data})
+    //     }
+    // })
 })
 
 app.use(express.json())
