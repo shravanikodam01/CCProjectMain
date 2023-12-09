@@ -14,8 +14,7 @@ const db = mysql.createConnection({
     database: 'ccprojectlibrary'
 })
 
-app.get('/',(req,res)=>{
-    res.json('hello')   
+app.get('/',(req,res)=>{  
     const q = "INSERT INTO student(`id`,`name`,`username`,`password`) VALUES ('1','shravani','shravani','admin')"
     const values = [req.body.id, req.body.name, req.body.username, req.body.password]
     db.query(q,(err,data)=>{
