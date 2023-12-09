@@ -16,6 +16,16 @@ const db = mysql.createConnection({
 
 app.get('/',(req,res)=>{
     res.json('hello')   
+    const q = "INSERT INTO student(`id`,`name`,`username`,`password`) VALUES ('1','shravani','shravani','admin')"
+    const values = [req.body.id, req.body.name, req.body.username, req.body.password]
+    db.query(q,(err,data)=>{
+        if(err){
+            res.send({error:err})
+        }
+        if(data){
+            res.send({message: data})
+        }
+    })
 })
 
 app.use(express.json())
