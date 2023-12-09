@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import RequestResource from './pages/RequestResource';
 import Resources from './pages/Resources'
 import NavBar from './components/NavBar';
+import Confirmation from './pages/Confirmation';
 import {
   BrowserRouter,
   Routes,
@@ -16,8 +17,9 @@ function App() {
   const [username, setUsername] = useState('')
   const [resources, setResources] = useState([])
   const [availableResources, setAvailableResources] = useState([])
+  const [selectedResources, setSelectedResources] = useState([]) 
   return (
-    <UserContext.Provider value={{username, setUsername, resources, setResources, availableResources, setAvailableResources}}>
+    <UserContext.Provider value={{selectedResources, setSelectedResources, username, setUsername, resources, setResources, availableResources, setAvailableResources}}>
     <BrowserRouter>
     <div className="App">
     
@@ -28,6 +30,7 @@ function App() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/resources' element={<Resources/>}/>
           <Route path='/request-resource' element={<RequestResource/>}/>
+          <Route path='/confirmation' element={<Confirmation/>}/>
         </Routes>
       
 </div>

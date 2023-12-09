@@ -88,8 +88,8 @@ app.post('/resources',(req,res)=>{
         }
     })
 })
-app.get('/resources-count', (req,res)=>{
-    const q = "SELECT resource_type.type_name,count(*) as count FROM resources, resource_type where resource_type.type_id = resources.type_id group by resources.type_id;"
+app.get('/available-resocurces',(req,res)=>{
+    const q="SELECT resources.res_id, resources.type_id, resource_type.type_name from resources, resource_type where resources.type_id = resource_type.type_id and resources.res_id NOT IN (select res_id from resources_occupied)"
     db.query(q, (err, data)=>{
         if(err){
             res.send({error:err})
@@ -101,16 +101,28 @@ app.get('/resources-count', (req,res)=>{
         }
     })
 })
-app.get('/occupied-resources-count',(req, res)=>{
-    const q = "SELECT resource_type.type_name,count(*) as count FROM resources_occupied, resource_type, resources where resource_type.type_id = resources.type_id and resources_occupied.res_id = resources.res_id group by resources.type_id;"
-    db.query(q, (err, data)=>{
+
+
+app.post('/add-resources',(req,res)=>{
+    let q=''
+    let start_date=new Date().toISOString()
+    start_date = start_date.substring(0, start_date.indexOf('T'))
+    let end_date=new Date((new Date()).getDate()+7).toISOString()
+    end_date = end_date.substring(0, end_date.indexOf('T'))
+    let values=[]
+    for(let i=0;i<req.body.resources.length;i++){
+         values.push([req.body.resources[i].res_id, req.body.id, start_date, end_date])
+    }
+    // q=q+"INSERT INTO resources_occupied (res_id, id, start_date, end_date) VALUES ('"+req.body.resources[i].res_id+"', '"+req.body.id+"', '"+start_date.substring(0, start_date.indexOf('T'))+"', '"+end_date.substring(0, end_date.indexOf('T'))+"'); "
+    q="INSERT INTO resources_occupied (res_id, id, start_date, end_date) VALUES ?; "
+    db.query(q,[values],(err,data)=>{
         if(err){
             res.send({error:err})
         }
         if(data){
             res.send(data)
         }else{
-            res.send({message:'error'})
+            res.send({message: 'Wrong username/password'})
         }
     })
 })

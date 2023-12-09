@@ -76,6 +76,37 @@ code {
 }
 
 .available-resource{
+  border: 1px solid black;
+  padding: 5px;
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
+}
+
+.confirm-div-parent{
+  border: 1px solid black;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 1000px;
+}
+
+.confirm-div-title{
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid black;
+}
+.confirm-div{
+  display: flex;
+  padding: 5px;
+  justify-content: center;
+  border: 1px solid black;
+}
+
+.confirmation-page{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

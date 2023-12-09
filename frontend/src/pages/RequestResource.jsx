@@ -1,52 +1,77 @@
 import React, {useContext, useEffect} from "react";
 import { UserContext } from "../App";
 import axios from "axios";
+import { useState } from "react";
+import capitalizeFirstLetter from "../functions/capitalize";
+import { useNavigate } from "react-router-dom";
+
 
 const RequestResource = () =>{
-    const {username, setUsername, availableResources, setAvailableResources} = useContext(UserContext)
+    const navigate = useNavigate()
+    const {username, setUsername, availableResources, setAvailableResources, selectedResources, setSelectedResources, resources} = useContext(UserContext)
     
     useEffect(()=>{
         const fetchAllResources = async ()=>{
-            let resourcesAV=[], occupiedResourcesName=[]
             try{
-                const resourcesCount = await axios.get('http://localhost:8800/resources-count')
-                const occupiedResourcesCount = await axios.get('http://localhost:8800/occupied-resources-count')
+                const resourcesAvailable = await axios.get('http://localhost:8800/available-resocurces')
+                console.log(resourcesAvailable)
+                const availResourcesObject={}
+                for(let i=0;i<resourcesAvailable.data.length;i++){
+                    let key = resourcesAvailable.data[i].type_name
+                    if(Object.keys(availResourcesObject).includes(key)){
+                        availResourcesObject[key] = {...availResourcesObject[key],res_id:[...availResourcesObject[key].res_id, resourcesAvailable.data[i].res_id]}
+                    }
+                    else{
+                        availResourcesObject[key] = {type_id: resourcesAvailable.data[i].type_id, res_id: [resourcesAvailable.data[i].res_id], value: 'Add to Cart'}
+                    }
+                }
+                console.log(availResourcesObject)
                 
-                for(let i=0;i< resourcesCount.data.length;i++){
-                    for(let j=0;j<occupiedResourcesCount.data.length;j++){
-                        if(resourcesCount.data[i].type_name == occupiedResourcesCount.data[j].type_name){
-                            resourcesAV = [...resourcesAV, {type_name: resourcesCount.data[i].type_name, count: resourcesCount.data[i].count - occupiedResourcesCount.data[j].count}]
-                        }
-                    }
-                }
-                for(let i=0;i<occupiedResourcesCount.data.length;i++){
-                    occupiedResourcesName.push(occupiedResourcesCount.data[i].type_name)
-                }
-                for(let i=0;i<resourcesCount.data.length;i++){
-                    if(!occupiedResourcesName.includes(resourcesCount.data[i].type_name)){
-                        resourcesAV = [...resourcesAV, {type_name: resourcesCount.data[i].type_name, count: resourcesCount.data[i].count}]
-                    }
-                }
-                setAvailableResources(resourcesAV)
+                setAvailableResources(availResourcesObject)
             }catch(err){
                 console.log(err)
             }
         }
         fetchAllResources()
     },[])
-    console.log(availableResources)
+
+    const checkout =()=>{
+        console.log(selectedResources)
+        axios.post("http://localhost:8800/add-resources",{id: username.id, 
+                                                    resources: selectedResources
+                                                }).then((response)=>{
+                                                    console.log(response)
+                                                    navigate("/confirmation")
+                                                })
+        
+    }
+    console.log(availableResources, resources.map(res=>res.type_name))
     return(
         <>
             <div className="resources-available-div">
-                {availableResources.map(resource=>{
+                {Object.keys(availableResources).map(resource=>{
                     return(
-                        (resource.count > 0) && <div className="available-resource">
-                            <h4>{resource.type_name}</h4>
-                            <button>Add to Cart</button>
+                        (availableResources[resource].res_id.length > 0) && <div className="available-resource">
+                            <h4>{capitalizeFirstLetter(resource)}</h4>
+                            <button disabled={resources.map(res=>res.type_name).includes(resource)} onClick={()=>{
+                                if(availableResources[resource].value=='Remove from Cart'){
+                                    setAvailableResources({...availableResources, [resource]:{...availableResources[resource], value: 'Add to Cart'}})
+                                    setSelectedResources(selectedResources.filter((filterResource)=>{
+                                        return filterResource.type_name!=resource
+                                    }))
+                                }
+                                else{
+                                    setAvailableResources({...availableResources, [resource]:{...availableResources[resource], value: 'Remove from Cart'}})
+                                    setSelectedResources([...selectedResources, {type_name: resource ,type_id: availableResources[resource].type_id, res_id: availableResources[resource].res_id[0]}])
+                                }
+                                }}>
+                                    {capitalizeFirstLetter(availableResources[resource].value)}
+                            </button>
                         </div>
                     )
                 })}
             </div>
+            <button onClick={()=>checkout()}>Checkout</button>
         </>
     )
 }

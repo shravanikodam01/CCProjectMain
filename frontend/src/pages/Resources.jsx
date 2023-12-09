@@ -42,7 +42,7 @@ const Resources = () =>{
                     )
                 })
             }
-        </div> : <div></div>}</>
+        </div> : <div><h5>You dont have any allocated resources</h5></div>}</>
     )
 }
 
