@@ -13,7 +13,7 @@ const db = mysql.createConnection({
     password: 'Satish@26',
     database: 'ccprojectlibrary'
 })
-
+db.connect()
 app.get('/',(req,res)=>{  
     const q = "INSERT INTO student(`id`,`name`,`username`,`password`) VALUES ('1','shravani','shravani','admin')"
     db.query(q,(err,data)=>{
