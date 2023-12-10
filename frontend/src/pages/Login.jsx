@@ -49,37 +49,54 @@ const Login = () => {
     })
     }
     return (
-        <>
-        {isRegister ? 
-        <><div>Register</div>
-        <label>Student ID</label><input type='text' onChange={(e)=>{
-            setStudentID(e.target.value)
-        }}/>
-        <label>Student Name</label><input type='text' onChange={(e)=>{
-            setStudentName(e.target.value)
-        }}/>
-        <label>Username</label><input type='text' onChange={(e)=>{
-            setUserNameReg(e.target.value)
-        }}/>
-        <label>Password</label><input type='password' onChange={(e)=>{
-            setUserPasswordReg(e.target.value)
-        }}/>
-        <button onClick={register}>Register</button>
-        <a onClick={(e)=>{setIsRegister(false)}}>Login?</a>
-        </> :
-        <><div>Login</div>
-        <label>Username</label><input type='text' onChange={(e)=>{
-            setUserNameLog(e.target.value)
-        }}/>
-        <label>Password</label><input type='password' onChange={(e)=>{
-            setUserPasswordLog(e.target.value)
-        }}/>
-        <button onClick={login}>Login</button>
-        <a onClick={(e)=>{setIsRegister(true)}}>Register?</a>
-        </>
-    }
-        </>
-    )
+        <div className="container">
+          {isRegister ? (
+            <>
+              <div className="form-container">Register</div>
+              <div className="form-group">
+                <label className="label">Student ID</label>
+                <input type="text" className="input" onChange={(e) => setStudentID(e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label className="label">Student Name</label>
+                <input type="text" className="input" onChange={(e) => setStudentName(e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label className="label">Username</label>
+                <input type="text" className="input" onChange={(e) => setUserNameReg(e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label className="label">Password</label>
+                <input type="password" className="input" onChange={(e) => setUserPasswordReg(e.target.value)} />
+              </div>
+              <button className="button" onClick={register}>
+                Register
+              </button>
+              <a className="link" onClick={() => setIsRegister(false)}>
+                Login?
+              </a>
+            </>
+          ) : (
+            <>
+              <div className="form-container">Login</div>
+              <div className="form-group">
+                <label className="label">Username</label>
+                <input type="text" className="input" onChange={(e) => setUserNameLog(e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label className="label">Password</label>
+                <input type="password" className="input" onChange={(e) => setUserPasswordLog(e.target.value)} />
+              </div>
+              <button className="button" onClick={login}>
+                Login
+              </button>
+              <a className="link" onClick={() => setIsRegister(true)}>
+                Register?
+              </a>
+            </>
+          )}
+        </div>
+      )
 }
 
 export default Login
