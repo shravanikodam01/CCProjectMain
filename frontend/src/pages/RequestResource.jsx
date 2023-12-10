@@ -13,7 +13,7 @@ const RequestResource = () =>{
     useEffect(()=>{
         const fetchAllResources = async ()=>{
             try{
-                const resourcesAvailable = await axios.get('http://localhost:8800/available-resocurces')
+                const resourcesAvailable = await axios.get('http://localhost:8080/available-resocurces')
                 console.log(resourcesAvailable)
                 const availResourcesObject={}
                 for(let i=0;i<resourcesAvailable.data.length;i++){
@@ -37,7 +37,7 @@ const RequestResource = () =>{
 
     const checkout =()=>{
         console.log(selectedResources)
-        axios.post("http://localhost:8800/add-resources",{id: username.id, 
+        axios.post("https://server-dot-ardent-quarter-403122.uc.r.appspot.com/add-resources",{id: username.id, 
                                                     resources: selectedResources
                                                 }).then((response)=>{
                                                     console.log(response)

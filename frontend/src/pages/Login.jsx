@@ -23,7 +23,7 @@ const Login = () => {
     const [userPasswordReg, setUserPasswordReg] = useState("")
 
     const register = () =>{
-        Axios.post("http://localhost:8800/register",{id: studentID, 
+        Axios.post("https://server-dot-ardent-quarter-403122.uc.r.appspot.com/register",{id: studentID, 
                                                     name: studentName,
                                                     username:userNameReg, 
                                                     password: userPasswordReg
@@ -34,13 +34,17 @@ const Login = () => {
     }
 
     const login = () => {
-        Axios.post("http://localhost:8800/login",{
+        Axios.post("https://server-dot-ardent-quarter-403122.uc.r.appspot.com/login",{
         username:userNameLog, 
         password: userPasswordLog
     }).then((response)=>{
+        console.log(response)
         if(response.data.length>0){
             setUsername(response.data[0])
             navigate("/resources")
+        }
+        else{
+            alert('wrong name or password')
         }
     })
     }

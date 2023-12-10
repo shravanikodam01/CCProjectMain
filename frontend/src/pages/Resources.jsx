@@ -10,7 +10,7 @@ const Resources = () =>{
     useEffect(()=>{
         const fetchAllResources = async ()=>{
             try{
-                const res = await axios.post('http://localhost:8800/resources',{id:username.id})
+                const res = await axios.post('https://server-dot-ardent-quarter-403122.uc.r.appspot.com/resources',{id:username.id})
                 console.log(res.data)
                 setResources(res.data)
             }catch(err){
