@@ -45,7 +45,6 @@ const RequestResource = () =>{
                                                 })
         
     }
-    console.log(availableResources, resources.map(res=>res.type_name))
     return(
         <>
             <div className="resources-available-div">

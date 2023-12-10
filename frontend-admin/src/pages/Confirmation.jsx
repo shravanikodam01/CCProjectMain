@@ -9,15 +9,11 @@ const Confirmation =()=>{
     const {selectedResources, setSelectedResources} = useContext(UserContext)
     return(
         <div class='confirmation-page'>
-        <div>Following Resources have been assigned to you, please collect it from the library reception</div>
         <div className="confirm-div-parent">
-            <div className="confirm-div-title"><h5>Resources Allocated</h5></div>
-            {selectedResources.map(resource=>{
-                return(
+            
                 <div className="confirm-div">
-                    {resource.type_name}
-                </div>)
-            })}
+                    <h4>{selectedResources.name} has returned the {selectedResources.type_name}</h4>
+                </div>
         </div>
         <button onClick={()=>{setSelectedResources([]);navigate("/resources")}}>Go Back to Home</button>
         </div>

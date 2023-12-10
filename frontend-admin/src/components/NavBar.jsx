@@ -10,7 +10,8 @@ const NavBar = () => {
     return(
     <div class="navbar">
       <a onClick={()=>navigate('/resources')}>Home</a>
-      <a onClick={()=>navigate('/request-resource')}>Request</a>
+      <a onClick={()=>navigate('/request-resource')}>Add Resource</a>
+      <a onClick={()=>navigate('/request-resource')}>Add Resource Type</a>
       <a className='log-out' onClick={()=>{setUsername('');navigate('/login')}}>Logout</a>
     </div>
     )

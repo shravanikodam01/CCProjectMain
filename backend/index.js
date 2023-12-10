@@ -174,7 +174,7 @@ app.get('/view-occupied-resources',async (req,res)=>{
     });
 })
 
-app.get('/return-resource',async (req,res)=>{
+app.post('/return-resource',async (req,res)=>{
     const q="delete from resources_occupied where res_id="+req.body.res_id
     const pool = await createUnixSocketPool()
     pool.query(q,  function (error, results, fields) {
