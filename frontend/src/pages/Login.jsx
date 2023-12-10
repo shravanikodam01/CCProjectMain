@@ -38,7 +38,7 @@ const Login = () => {
         username:userNameLog, 
         password: userPasswordLog
     }).then((response)=>{
-        console.log(response)
+        console.log(response.data.length)
         if(response.data.length>0){
             setUsername(response.data[0])
             navigate("/resources")

@@ -156,13 +156,33 @@ app.post('/add-resources',async (req,res)=>{
          values.push([req.body.resources[i].res_id, req.body.id, start_date, end_date])
     }
     // q=q+"INSERT INTO resources_occupied (res_id, id, start_date, end_date) VALUES ('"+req.body.resources[i].res_id+"', '"+req.body.id+"', '"+start_date.substring(0, start_date.indexOf('T'))+"', '"+end_date.substring(0, end_date.indexOf('T'))+"'); "
-    q="INSERT INTO resources_occupied (res_id, id, start_date, end_date) VALUES ?; "
+    q="INSERT INTO resources_occupied (res_id, id, start_date, end_date) VALUES ? "
     const pool = await createUnixSocketPool()
-    pool.query(q,values,  function (error, results, fields) {
+    pool.query(q,[values],  function (error, results, fields) {
         console.log(results, error, )
         res.send(results)
     });
 })
+
+
+app.get('/view-occupied-resources',async (req,res)=>{
+    const q="SELECT resources_occupied.res_id, resources.type_id, resource_type.type_name, student.id, student.name, student.username, resources_occupied.start_date, resources_occupied.end_date from resources_occupied,student, resource_type, resources where resources.type_id = resource_type.type_id and resources.res_id = resources_occupied.res_id and student.id = resources_occupied.id"
+    const pool = await createUnixSocketPool()
+    pool.query(q,  function (error, results, fields) {
+        console.log(results, error, )
+        res.send(results)
+    });
+})
+
+app.get('/return-resource',async (req,res)=>{
+    const q="delete from resources_occupied where res_id="+req.body.res_id
+    const pool = await createUnixSocketPool()
+    pool.query(q,  function (error, results, fields) {
+        console.log(results, error, )
+        res.send(results)
+    });
+})
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, ()=>{
