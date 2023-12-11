@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Resources = () =>{
 
     const navigate = useNavigate()
-    const {username, setUsername, resources, setResources} = useContext(UserContext)
+    const {setSelectedResources, resources, setResources} = useContext(UserContext)
 
     useEffect(()=>{
         const fetchAllResources = async ()=>{
@@ -21,10 +21,10 @@ const Resources = () =>{
         fetchAllResources()
     },[])
 
-    const returnResource = (res_id) =>{
-        axios.post("https://server-dot-ardent-quarter-403122.uc.r.appspot.com/return-resource",{res_id:res_id
+    const returnResource = (resource) =>{
+        axios.post("https://server-dot-ardent-quarter-403122.uc.r.appspot.com/return-resource",{res_id:resource.res_id
                                                 }).then((response)=>{
-                                                    console.log(response)
+                                                    setSelectedResources(resource)
                                                     navigate("/confirmation")
                                                 })
     }
@@ -50,7 +50,7 @@ const Resources = () =>{
                         <div className='resource-field'>{resource.res_id}</div>
                         <div className='resource-field'>{new Date(resource.start_date).toDateString()}</div>
                         <div className='resource-field'>{new Date(resource.end_date).toDateString()}</div>
-                        <div className='resource-field'><button onClick={()=>returnResource(resource.res_id)}>Submit</button></div>
+                        <div className='resource-field'><button onClick={()=>returnResource(resource)}>Submit</button></div>
                     </div>
                     )
                 })
